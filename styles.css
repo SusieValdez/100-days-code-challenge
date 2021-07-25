@@ -1,10 +1,77 @@
-.day {
-  border: solid 1px black;
-  height: 50px;
-  width: 50px;
-  display: inline-block;
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Source+Code+Pro&display=swap");
+
+:root {
+  --no-commits: #1e2529;
+  --few-commits: #40187a;
+  --regular-commits: #4b1394;
+  --superb-commits: #610aca;
+  --plusultra-commits: #7700ff;
 }
 
-.committed {
-  background-color: green;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Amatic";
+  background-color: #131618;
+}
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+h1 {
+  font-family: "Source Code Pro";
+  color: white;
+  margin: 10px;
+}
+
+h2 {
+  font-family: "Amatic SC";
+  color: white;
+  margin: 10px;
+}
+
+#calendar {
+  margin: 24px 0;
+}
+
+.day {
+  border: solid 1px black;
+  border-radius: 5%;
+  padding-top: 13%;
+  width: 13%;
+  display: inline-block;
+  margin: 2px 5px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.day:hover {
+  transform: scale(1.1);
+}
+
+.no-commits {
+  background-color: var(--no-commits);
+}
+
+.few-commits {
+  background-color: var(--few-commits);
+}
+
+.regular-commits {
+  background-color: var(--regular-commits);
+}
+
+.superb-commits {
+  background-color: var(--superb-commits);
+}
+
+.plusultra-commits {
+  background-color: var(--plusultra-commits);
 }
