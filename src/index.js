@@ -43,30 +43,41 @@ const getCommitsOnDay = (commits, date) => {
   );
 };
 
+function getCommitClass(numCommits) {
+  if (numCommits >= 5) {
+    return "plusultra-commits";
+  } else if (numCommits >= 3) {
+    return "superb-commits";
+  } else if (numCommits >= 2) {
+    return "regular-commits";
+  } else if (numCommits >= 1) {
+    return "few-commits";
+  } else {
+    return "no-commits";
+  }
+}
+
+function createDayTile(commits) {
+  const dayTile = document.createElement("div");
+  dayTile.classList.add("day");
+  console.log(commits);
+  const commitClass = getCommitClass(commits.length);
+  dayTile.classList.add(commitClass);
+  return dayTile;
+}
+
 const NUM_DAYS = 100;
 const START_DATE = new Date("2021-07-19T05:00:00Z");
 
 const calendarEl = document.getElementById("calendar");
-const commits = await getGithubCommits();
 
-const date = START_DATE;
-for (let i = 0; i < NUM_DAYS; i++) {
-  const child = document.createElement("div");
-  child.classList.add("day");
-  const commitsOnDay = getCommitsOnDay(commits, date);
-  console.log(commitsOnDay);
-  const numCommits = commitsOnDay.length;
-  if (numCommits >= 5) {
-    child.classList.add("plusultra-commits");
-  } else if (numCommits >= 3) {
-    child.classList.add("superb-commits");
-  } else if (numCommits >= 2) {
-    child.classList.add("regular-commits");
-  } else if (numCommits >= 1) {
-    child.classList.add("few-commits");
-  } else {
-    child.classList.add("no-commits");
+(async () => {
+  const commits = await getGithubCommits();
+  const date = START_DATE;
+  for (let i = 0; i < NUM_DAYS; i++) {
+    const commitsOnDay = getCommitsOnDay(commits, date);
+    const dayTile = createDayTile(commitsOnDay);
+    calendarEl.appendChild(dayTile);
+    date.setDate(date.getDate() + 1);
   }
-  calendarEl.appendChild(child);
-  date.setDate(date.getDate() + 1);
-}
+})();
