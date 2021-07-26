@@ -6,6 +6,8 @@
   --regular-commits: #4b1394;
   --superb-commits: #610aca;
   --plusultra-commits: #7700ff;
+  --red: rgb(236, 27, 72);
+  --cream: rgb(255, 244, 223);
 }
 
 * {
@@ -28,17 +30,42 @@ body {
 h1 {
   font-family: "Source Code Pro";
   color: white;
-  margin: 10px;
-}
-
-h2 {
-  font-family: "Amatic SC";
-  color: white;
-  margin: 10px;
+  font-size: 6vw;
 }
 
 #calendar {
   margin: 24px 0;
+}
+
+.initday {
+  margin-top: 5%;
+  color: var(--cream);
+  font-size: 4vw;
+  font-family: "Amatic SC";
+  width: 100%;
+}
+
+.deadline {
+  width: 5vw;
+  height: 5vw;
+  color: var(--cream);
+  margin: 7%;
+  display: inline-block;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.deadline-format > h4 {
+  font-size: 4vw;
+  font-family: "Source Code Pro";
+}
+
+.deadline-format > span {
+  font-family: "Amatic SC";
+}
+
+.challenge-date {
+  color: var(--red);
 }
 
 .day {
