@@ -16,13 +16,13 @@ const challenge = document.querySelector(".challenge-date");
 const deadline = document.querySelector(".deadline");
 const items = document.querySelectorAll(".deadline-format h4");
 
-let futureDate = new Date(2021, 9, 27, 23, 59, 59);
+const futureDate = new Date(2021, 9, 26, 23, 59, 59);
 console.log(futureDate);
 
 const year = futureDate.getFullYear();
 const hours = futureDate.getHours();
 const minutes = futureDate.getMinutes();
-let month = months[futureDate.getMonth() - 1];
+const month = months[futureDate.getMonth() - 1];
 const date = futureDate.getDate();
 
 challenge.textContent = `Challenge ends on ${date} ${month} ${year}, ${hours}:${minutes}`;
@@ -32,9 +32,7 @@ const futureTime = futureDate.getTime();
 
 function getRemainingTime() {
   const today = new Date();
-  console.log("day" + today);
   const difference = futureTime - today;
-  console.log(difference);
   // 1s is 1000ms
   // 1m is 60s
   // 1hr is 60m
@@ -45,11 +43,10 @@ function getRemainingTime() {
   const oneHour = 60 * 60 * 1000;
   const oneMinute = 60 * 1000;
   // calculate all values
-  let days = difference / oneDay;
-  days = Math.floor(days);
-  let hours = Math.floor((difference % oneDay) / oneHour);
-  let minutes = Math.floor((difference % oneHour) / oneMinute);
-  let seconds = Math.floor((difference % oneMinute) / 1000);
+  const days = Math.floor(difference / oneDay);
+  const hours = Math.floor((difference % oneDay) / oneHour);
+  const minutes = Math.floor((difference % oneHour) / oneMinute);
+  const seconds = Math.floor((difference % oneMinute) / 1000);
 
   //set values array
   const values = [days, hours, minutes, seconds];
@@ -58,7 +55,7 @@ function getRemainingTime() {
   });
 }
 
-getRemainingTime();
+setInterval(getRemainingTime, 1000);
 
 const headers = {
   Authorization: "Basic " + btoa("SusieHatter"),
