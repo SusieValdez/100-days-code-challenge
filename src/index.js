@@ -17,7 +17,6 @@ const deadline = document.querySelector(".deadline");
 const items = document.querySelectorAll(".deadline-format h4");
 
 const futureDate = new Date(2021, 9, 26, 23, 59, 59);
-console.log(futureDate);
 
 const year = futureDate.getFullYear();
 const hours = futureDate.getHours();
@@ -61,24 +60,33 @@ const headers = {
   Authorization: "Basic " + btoa("SusieHatter"),
 };
 
-const getGithubCommits = async () =>
+const getGitHubRepos = () =>
   fetch(`https://api.github.com/users/Susiehatter/repos?per_page=100`, {
     headers,
-  })
+  }).then((res) => res.json());
+
+const getRepoCommits = (repo) =>
+  fetch(
+    `https://api.github.com/repos/Susiehatter/${repo.name}/commits?author=SusieHatter&per_page=100&since=2021-07-19T05:00:00Z`,
+    {
+      headers,
+    }
+  )
     .then((res) => res.json())
-    .then((repos) =>
-      Promise.all(
-        repos.map((repo) =>
-          fetch(
-            `https://api.github.com/repos/Susiehatter/${repo.name}/commits?author=SusieHatter&per_page=100&since=2021-07-19T05:00:00Z`,
-            {
-              headers,
-            }
-          ).then((res) => res.json())
-        )
-      )
-    )
-    .then((list) => list.flat());
+    .then((commits) =>
+      commits.map((commit) => ({
+        ...commit,
+        repo,
+      }))
+    );
+
+const getGithubCommits = async () => {
+  const repos = await getGitHubRepos();
+  const reposCommits = await Promise.all(
+    repos.map((repo) => getRepoCommits(repo))
+  );
+  return reposCommits.flat();
+};
 
 const isDateOnDay = (dateTimeStr, dateStr) => {
   const dateTime = new Date(dateTimeStr);
@@ -119,16 +127,41 @@ function getCommitClass(numCommits) {
 function createDayTile(commits) {
   const dayTile = document.createElement("div");
   dayTile.classList.add("day");
-  console.log(commits);
   const commitClass = getCommitClass(commits.length);
   dayTile.classList.add(commitClass);
   return dayTile;
 }
 
+const commitsListHtml = (commits) => `
+  <div class="commit-list">
+    ${
+      commits.length === 0
+        ? "No commmits on this day 😢"
+        : commits
+            .map(
+              (commit) => `
+                <div class="commit row">
+                  <div class="col">
+                    <small>${commit.commit.author.date}</small>
+                  </div>
+                  <div class="col">
+                    <a href="${commit.html_url}">${commit.commit.message}</a>
+                  </div>
+                </div>
+              `
+            )
+            .join("\n")
+    }
+  </div>
+`;
+
 const NUM_DAYS = 100;
 const START_DATE = new Date("2021-07-19T05:00:00Z");
 
 const calendarEl = document.getElementById("calendar");
+const modalEl = document.getElementById("modal");
+const closeButtonEl = document.getElementsByClassName("close")[0];
+const commitsEl = document.getElementById("commits");
 
 (async () => {
   const commits = await getGithubCommits();
@@ -136,7 +169,21 @@ const calendarEl = document.getElementById("calendar");
   for (let i = 0; i < NUM_DAYS; i++) {
     const commitsOnDay = getCommitsOnDay(commits, date);
     const dayTile = createDayTile(commitsOnDay);
+    dayTile.onclick = () => {
+      modalEl.style.display = "block";
+      commitsEl.innerHTML = commitsListHtml(commitsOnDay);
+    };
     calendarEl.appendChild(dayTile);
     date.setDate(date.getDate() + 1);
   }
 })();
+
+closeButtonEl.onclick = function () {
+  modalEl.style.display = "none";
+};
+
+window.onclick = function (event) {
+  if (event.target === modalEl) {
+    modalEl.style.display = "none";
+  }
+};
