@@ -1,3 +1,6 @@
+const CACHED_COMMITS_KEY = "cached-commits";
+const CACHE_MILLIS = 60000; // 1 minute
+
 const months = [
   "January",
   "February",
@@ -79,6 +82,26 @@ const getRepoCommits = (repo) =>
         repo,
       }))
     );
+
+const createCacheFn = (fn, key, cache_time) => async () => {
+  const now = Date.now();
+  const cacheStr = localStorage.getItem(key);
+  if (cacheStr !== null) {
+    const cache = JSON.parse(cacheStr);
+    if (cache.time + cache_time > now) {
+      return cache.data;
+    }
+  }
+  const data = await fn();
+  localStorage.setItem(
+    key,
+    JSON.stringify({
+      time: now,
+      data,
+    })
+  );
+  return data;
+};
 
 const getGithubCommits = async () => {
   const repos = await getGitHubRepos();
@@ -163,8 +186,14 @@ const modalEl = document.getElementById("modal");
 const closeButtonEl = document.getElementsByClassName("close")[0];
 const commitsEl = document.getElementById("commits");
 
+const getCachedGitHubCommits = createCacheFn(
+  getGithubCommits,
+  CACHED_COMMITS_KEY,
+  CACHE_MILLIS
+);
+
 (async () => {
-  const commits = await getGithubCommits();
+  const commits = await getCachedGitHubCommits();
   const date = START_DATE;
   for (let i = 0; i < NUM_DAYS; i++) {
     const commitsOnDay = getCommitsOnDay(commits, date);
