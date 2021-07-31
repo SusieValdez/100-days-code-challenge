@@ -155,6 +155,25 @@ function createDayTile(commits) {
   return dayTile;
 }
 
+const emojis = [
+  "😀",
+  "💪",
+  "😋",
+  "💃",
+  "💁‍♀️",
+  "🤓",
+  "😍",
+  "💜",
+  "😊",
+  "✅",
+  "🎉",
+  "🎊",
+  "💻",
+];
+const getRandEmoji = () => {
+  return emojis[Math.floor(Math.random() * emojis.length)];
+};
+
 const commitsListHtml = (commits) => `
   <div class="commit-list">
     ${
@@ -168,7 +187,23 @@ const commitsListHtml = (commits) => `
                     <small>${commit.commit.author.date}</small>
                   </div>
                   <div class="col">
-                    <a href="${commit.html_url}">${commit.commit.message}</a>
+                    <div class="row">
+                      <div class="col">
+                        <h4>
+                          <a
+                            href="${commit.repo.html_url}"
+                            class="rainbow-text"
+                          >
+                            ${commit.repo.name}
+                          </a>
+                        </h4>
+                      </div>
+                      <div class="col">
+                        <a href="${commit.html_url}" class="rainbow-text">
+                          ${commit.commit.message} ${getRandEmoji()}
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               `
