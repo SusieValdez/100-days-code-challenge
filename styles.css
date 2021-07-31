@@ -24,32 +24,41 @@ body {
 .container {
   margin: 0 auto;
   width: 100%;
-  max-width: 800px;
 }
 
 h1 {
   font-family: "Source Code Pro";
   color: white;
-  font-size: 6vw;
+  font-size: 3.5vw;
+  text-align: center;
+  margin-top: 24px;
 }
 
 #calendar {
-  margin: 24px 0;
+  margin: 24px auto;
+  width: 80vw;
+  max-width: 1000px;
 }
 
 .initday {
-  margin-top: 5%;
-  color: var(--cream);
+  margin: 10px auto;
+  color: var(--plusultra-commits);
   font-size: 4vw;
   font-family: "Amatic SC";
   width: 100%;
+  text-align: center;
+}
+
+.deadlines {
+  margin: 0 auto;
+  width: 60vw;
 }
 
 .deadline {
   width: 5vw;
   height: 5vw;
   color: var(--cream);
-  margin: 7%;
+  margin: 0 4vw;
   display: inline-block;
   border-radius: 5px;
   text-align: center;
@@ -58,6 +67,10 @@ h1 {
 .deadline-format > h4 {
   font-size: 4vw;
   font-family: "Source Code Pro";
+  border: solid 2px var(--plusultra-commits);
+  width: 10vw;
+  padding: 2vh 0;
+  text-align: center;
 }
 
 .deadline-format > span {
@@ -65,7 +78,11 @@ h1 {
 }
 
 .challenge-date {
-  color: var(--red);
+  color: var(--plusultra-commits);
+  font-family: "Amatic SC";
+  font-size: 4vw;
+  margin: 10px auto;
+  text-align: center;
 }
 
 .day {
