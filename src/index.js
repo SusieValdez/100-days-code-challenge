@@ -57,6 +57,7 @@ function getRemainingTime() {
   });
 }
 
+getRemainingTime();
 setInterval(getRemainingTime, 1000);
 
 const headers = {
