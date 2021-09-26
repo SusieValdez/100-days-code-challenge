@@ -218,6 +218,7 @@ const START_DATE = new Date("2021-07-19T05:00:00Z");
 
 const calendarEl = document.getElementById("calendar");
 const modalEl = document.getElementById("modal");
+const modalDateEl = document.getElementById("modal-date");
 const closeButtonEl = document.getElementsByClassName("close")[0];
 const commitsEl = document.getElementById("commits");
 
@@ -234,6 +235,7 @@ const getCachedGitHubCommits = createCacheFn(
     const commitsOnDay = getCommitsOnDay(commits, date);
     const dayTile = createDayTile(commitsOnDay);
     dayTile.onclick = () => {
+      modalDateEl.innerHTML = date;
       modalEl.style.display = "block";
       commitsEl.innerHTML = commitsListHtml(commitsOnDay);
     };
