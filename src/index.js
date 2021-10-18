@@ -60,9 +60,7 @@ function getRemainingTime() {
 getRemainingTime();
 setInterval(getRemainingTime, 1000);
 
-const headers = {
-  Authorization: "Basic " + btoa("SusieHatter"),
-};
+const headers = {};
 
 const getGitHubRepos = () =>
   fetch(`https://api.github.com/users/Susiehatter/repos?per_page=100`, {
