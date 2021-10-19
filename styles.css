@@ -217,6 +217,7 @@ h1 {
     #e7484f 100%
   );
   background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .rainbow-text:hover {
