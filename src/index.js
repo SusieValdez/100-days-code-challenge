@@ -27,7 +27,7 @@ const minutes = futureDate.getMinutes();
 const month = months[futureDate.getMonth() - 1];
 const date = futureDate.getDate();
 
-challenge.textContent = `Challenge ends on ${date} ${month} ${year}, ${hours}:${minutes}`;
+challenge.textContent = `Challenge ended on ${date} ${month} ${year}, ${hours}:${minutes}`;
 
 //future time in ms
 const futureTime = futureDate.getTime();
@@ -57,8 +57,8 @@ function getRemainingTime() {
   });
 }
 
-getRemainingTime();
-setInterval(getRemainingTime, 1000);
+// getRemainingTime();
+// setInterval(getRemainingTime, 1000);
 
 const headers = {};
 
