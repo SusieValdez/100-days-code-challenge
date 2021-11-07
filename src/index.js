@@ -1,5 +1,6 @@
 const CACHED_COMMITS_KEY = "cached-commits";
 const CACHE_MILLIS = 60000; // 1 minute
+const API_BASE_URL = "https://pandora.susie.mx"; // "http://localhost:8080";
 
 const months = [
   "January",
@@ -60,20 +61,11 @@ function getRemainingTime() {
 // getRemainingTime();
 // setInterval(getRemainingTime, 1000);
 
-const headers = {};
-
 const getGitHubRepos = () =>
-  fetch(`https://api.github.com/users/Susiehatter/repos?per_page=100`, {
-    headers,
-  }).then((res) => res.json());
+  fetch(`${API_BASE_URL}/github/repos`).then((res) => res.json());
 
 const getRepoCommits = (repo) =>
-  fetch(
-    `https://api.github.com/repos/Susiehatter/${repo.name}/commits?author=SusieHatter&per_page=100&since=2021-07-19T05:00:00Z`,
-    {
-      headers,
-    }
-  )
+  fetch(`${API_BASE_URL}/github/repos/${repo.name}/commits`)
     .then((res) => res.json())
     .then((commits) =>
       commits.map((commit) => ({
